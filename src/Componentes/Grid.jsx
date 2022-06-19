@@ -4,6 +4,7 @@ import MaterialTable from "material-table";
 import axios from 'axios';
 import {Modal, TextField, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+import Swal from 'sweetalert2'
 
 const columns= [
     { title: 'Acciones', field: 'acciones',  headerAlign: 'center' },
@@ -43,17 +44,16 @@ function Grid() {
   const [modalInsertar, setModalInsertar]= useState(false);
   const [modalEditar, setModalEditar]= useState(false);
   const [modalEliminar, setModalEliminar]= useState(false);
-  const [artistaSeleccionado, setArtistaSeleccionado]=useState({
-    artista: "",
-    genero: "",
+  const [postSeleccionado, setPostSeleccionado]=useState({
+    userId: "",
     id: "",
-    pais: "",
-    ventas: ""
+    title: "",
+    body: ""
   })
 
   const handleChange=e=>{
     const {name, value}=e.target;
-    setArtistaSeleccionado(prevState=>({
+    setPostSeleccionado(prevState=>({
       ...prevState,
       [name]: value
     }));
@@ -69,9 +69,14 @@ function Grid() {
   }
 
   const peticionPost=async()=>{
-    await axios.post(baseUrl, artistaSeleccionado)
+    await axios.post(`${baseUrl}posts`, postSeleccionado)
     .then(response=>{
       setData(data.concat(response.data));
+      Swal.fire(
+        'Creado!',
+        'Usted ha creado un post con exito!',
+        'success'
+      )
       abrirCerrarModalInsertar();
     }).catch(error=>{
       console.log(error);
@@ -79,18 +84,23 @@ function Grid() {
   }
 
   const peticionPut=async()=>{
-    await axios.put(baseUrl+"/"+artistaSeleccionado.id, artistaSeleccionado)
+    await axios.put(`${baseUrl}posts/${postSeleccionado.id}`, postSeleccionado)
     .then(response=>{
       var dataNueva= data;
-      dataNueva.map(artista=>{
-        if(artista.id===artistaSeleccionado.id){
-          artista.artista=artistaSeleccionado.artista;
-          artista.genero=artistaSeleccionado.genero;
-          artista.ventas=artistaSeleccionado.ventas;
-          artista.pais=artistaSeleccionado.pais;
+      dataNueva.map(post=>{
+        if(post.id===postSeleccionado.id){
+          post.userId=postSeleccionado.userId;
+          post.title=postSeleccionado.title;
+          post.body=postSeleccionado.body;
+          post.id=postSeleccionado.id;
         }
       });
       setData(dataNueva);
+      Swal.fire(
+        'Editado!',
+        'Usted ha editado un post con exito!',
+        'success'
+      )
       abrirCerrarModalEditar();
     }).catch(error=>{
       console.log(error);
@@ -98,23 +108,29 @@ function Grid() {
   }
 
   const peticionDelete=async()=>{
-    await axios.delete(baseUrl+"/"+artistaSeleccionado.id)
+    await axios.delete(`${baseUrl}posts/${postSeleccionado.id}`)
     .then(response=>{
-      setData(data.filter(artista=>artista.id!==artistaSeleccionado.id));
+      setData(data.filter(post=>post.id!==postSeleccionado.id));
       abrirCerrarModalEliminar();
+      Swal.fire(
+        'Eliminado!',
+        'Usted ha eliminado un post con exito!',
+        'success'
+      )
     }).catch(error=>{
       console.log(error);
     })
   }
 
-  const seleccionarArtista=(artista, caso)=>{
-    setArtistaSeleccionado(artista);
+  const seleccionarPost=(post, caso)=>{
+    setPostSeleccionado(post);
     (caso==="Editar")?abrirCerrarModalEditar()
     :
     abrirCerrarModalEliminar()
   }
 
   const abrirCerrarModalInsertar=()=>{
+    setPostSeleccionado([]);
     setModalInsertar(!modalInsertar);
   }
 
@@ -134,13 +150,11 @@ function Grid() {
   const bodyInsertar=(
     <div className={styles.modal}>
       <h3>Agregar Nuevo Post</h3>
-      <TextField className={styles.inputMaterial} label="Artista" name="artista" onChange={handleChange}/>
+      <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange}/>
       <br />
-      <TextField className={styles.inputMaterial} label="País" name="pais" onChange={handleChange}/>          
+      <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange}/>          
 <br />
-<TextField className={styles.inputMaterial} label="Ventas" name="ventas" onChange={handleChange}/>
-      <br />
-<TextField className={styles.inputMaterial} label="Género" name="genero" onChange={handleChange}/>
+<TextField className={styles.inputMaterial} label="Cuerpo" name="body" onChange={handleChange}/>
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPost()}>Insertar</Button>
@@ -151,14 +165,12 @@ function Grid() {
 
   const bodyEditar=(
     <div className={styles.modal}>
-      <h3>Editar Artista</h3>
-      <TextField className={styles.inputMaterial} label="Artista" name="artista" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.artista}/>
+      <h3>Editar Post</h3>
+      <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange} value={postSeleccionado&&postSeleccionado.userId}/>
       <br />
-      <TextField className={styles.inputMaterial} label="País" name="pais" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.pais}/>          
+      <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange} value={postSeleccionado&&postSeleccionado.title}/>          
 <br />
-<TextField className={styles.inputMaterial} label="Ventas" name="ventas" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.ventas}/>
-      <br />
-<TextField className={styles.inputMaterial} label="Género" name="genero" onChange={handleChange} value={artistaSeleccionado&&artistaSeleccionado.genero}/>
+<TextField className={styles.inputMaterial} label="Cuerpo" name="body" onChange={handleChange} value={postSeleccionado&&postSeleccionado.body}/>
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPut()}>Editar</Button>
@@ -169,7 +181,7 @@ function Grid() {
 
   const bodyEliminar=(
     <div className={styles.modal}>
-      <p>Estás seguro que deseas eliminar al artista <b>{artistaSeleccionado && artistaSeleccionado.artista}</b>? </p>
+      <p>Estás seguro que deseas eliminar al post <b>{postSeleccionado && postSeleccionado.id}</b>? </p>
       <div align="right">
         <Button color="secondary" onClick={()=>peticionDelete()}>Sí</Button>
         <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
@@ -182,7 +194,7 @@ function Grid() {
   return (
     <div className="App">
       <br />
-      <Button onClick={()=>abrirCerrarModalInsertar()}>Insertar Post</Button>
+      <Button variant="contained" onClick={()=>abrirCerrarModalInsertar()}>Insertar Post</Button>
       <br /><br />
      <MaterialTable
           columns={columns}
@@ -192,12 +204,12 @@ function Grid() {
             {
               icon: 'edit',
               tooltip: 'Editar Post',
-              onClick: (event, rowData) => seleccionarArtista(rowData, "Editar")
+              onClick: (event, rowData) => seleccionarPost(rowData, "Editar")
             },
             {
               icon: 'delete',
               tooltip: 'Eliminar Post',
-              onClick: (event, rowData) => seleccionarArtista(rowData, "Eliminar")
+              onClick: (event, rowData) => seleccionarPost(rowData, "Eliminar")
             }
           ]}
           options={{
