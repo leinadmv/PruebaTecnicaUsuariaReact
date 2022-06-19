@@ -7,11 +7,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import Swal from 'sweetalert2'
 
 const columns= [
-    { title: 'Acciones', field: 'acciones',  headerAlign: 'center' },
-    { title: 'Id de Usuario', field: 'userId',  headerAlign: 'center' },
-    { title: 'Id', field: 'id',  headerAlign: 'center'},
-    { title: 'Titulo', field: 'title',  headerAlign: 'center' },
-    { title: 'Cuerpo', field: 'body',  headerAlign: 'center' },
+    { title: 'Id de Usuario', field: 'userId',  headerAlign: 'center'  },
+    { title: 'Id', field: 'id',  headerAlign: 'center' },
+    { title: 'Titulo', field: 'title',  headerAlign: 'center'},
+    { title: 'Cuerpo', field: 'body',  headerAlign: 'center'},
   ];
 
 const baseUrl="https://jsonplaceholder.typicode.com/";
@@ -199,7 +198,7 @@ function Grid() {
      <MaterialTable
           columns={columns}
           data={data}
-          title="Listado de Posts"  
+          title="Listado de Posts"
           actions={[
             {
               icon: 'edit',
@@ -214,6 +213,10 @@ function Grid() {
           ]}
           options={{
             actionsColumnIndex: -1,
+            headerStyle: {
+              backgroundColor: '#3f51b5',
+              color: '#FFF'
+            }
           }}
           localization={{
             header:{
