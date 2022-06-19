@@ -19,7 +19,7 @@ const baseUrl="https://jsonplaceholder.typicode.com/";
 const useStyles = makeStyles((theme) => ({
   modal: {
     position: 'absolute',
-    width: 400,
+    width: 800,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -149,10 +149,25 @@ function Grid() {
   const bodyInsertar=(
     <div className={styles.modal}>
       <h3>Agregar Nuevo Post</h3>
-      <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange}/>
+
+      <div class="row">
+
+        <div class="col-6">
+
+        <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange}/>
       <br />
-      <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange}/>          
+
+        </div>
+
+        <div class="col-6">
+
+        <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange}/>          
 <br />
+          
+        </div>
+
+      </div>
+
 <TextField className={styles.inputMaterial} label="Cuerpo" name="body" onChange={handleChange}/>
       <br /><br />
       <div align="right">
@@ -164,11 +179,24 @@ function Grid() {
 
   const bodyEditar=(
     <div className={styles.modal}>
+    
       <h3>Editar Post</h3>
-      <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange} value={postSeleccionado&&postSeleccionado.userId}/>
-      <br />
-      <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange} value={postSeleccionado&&postSeleccionado.title}/>          
-<br />
+
+      <div class="row">
+
+        <div class="col-6">
+
+        <TextField className={styles.inputMaterial} label="Id de usuario" name="userId" onChange={handleChange} value={postSeleccionado&&postSeleccionado.userId}/>
+        
+        </div> 
+        
+        <div class="col-6">
+
+        <TextField className={styles.inputMaterial} label="Titulo" name="title" onChange={handleChange} value={postSeleccionado&&postSeleccionado.title}/>          
+
+        </div>
+      </div>
+
 <TextField className={styles.inputMaterial} label="Cuerpo" name="body" onChange={handleChange} value={postSeleccionado&&postSeleccionado.body}/>
       <br /><br />
       <div align="right">
