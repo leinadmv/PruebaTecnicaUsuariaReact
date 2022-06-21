@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Documentacion
+
+Proyecto de prueba tecnica realizado por daniel martinez vargas para la empresa Usuaria Sistemas Inteligentes en Red; el proyecto es realizado con ReactJS y el framework material ui ademas de la utilizacion de las grillas responsivas de bootstrap; para correr el proyecto debe tener creado un ambiente con las siguientes caracteristicas:
+
+node version: 16.13.1
+npm version: 8.1.2
+
+una vez descargado el proyecto debe correr el comando npm install, compilarlo y correrlo con el comando npm start como se especifica mas abajo
+
 ## Available Scripts
 
 In the project directory, you can run:
