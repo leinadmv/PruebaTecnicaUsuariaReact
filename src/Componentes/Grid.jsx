@@ -58,6 +58,12 @@ function Grid() {
     }));
   }
 
+   /**
+   * @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Servicio get que se encarga de obtener toda la informacion de los posts
+   * @returns listado de post en un arreglo de json
+   */
   const peticionGet=async()=>{
     await axios.get(`${baseUrl}posts`)
     .then(response=>{
@@ -67,6 +73,13 @@ function Grid() {
     })
   }
 
+  /**
+   * @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Servicio post que se encarga de guardar un post
+   * @param post: el post que se guardar como json con los datos iduser, title, body
+   * @returns retorna el post creado
+   */
   const peticionPost=async()=>{
     await axios.post(`${baseUrl}posts`, postSeleccionado)
     .then(response=>{
@@ -82,6 +95,14 @@ function Grid() {
     })
   }
 
+  /**
+   * @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Servicio put que se encarga de editar un post
+   * @param id: id del post a editar
+   * @param post: el post que se guardar como json con los datos id, iduser, title, body
+   * @returns retorna el post creado
+   */
   const peticionPut=async()=>{
     await axios.put(`${baseUrl}posts/${postSeleccionado.id}`, postSeleccionado)
     .then(response=>{
@@ -106,6 +127,12 @@ function Grid() {
     })
   }
 
+   /**
+   * @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Servicio delete que se encarga de eliminar un post
+   * @returns codigo de servicio exitoso
+   */
   const peticionDelete=async()=>{
     await axios.delete(`${baseUrl}posts/${postSeleccionado.id}`)
     .then(response=>{
@@ -121,6 +148,13 @@ function Grid() {
     })
   }
 
+  /**
+   * @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Metodo que se encarga de abrir o cerrar el modal de creacion o edicion
+   * @param {el post que fue seleccionado} post 
+   * @param {en caso que sea editar o crear} caso 
+   */
   const seleccionarPost=(post, caso)=>{
     setPostSeleccionado(post);
     (caso==="Editar")?abrirCerrarModalEditar()
@@ -128,16 +162,30 @@ function Grid() {
     abrirCerrarModalEliminar()
   }
 
+  /**
+   *  @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Metodo para abrir o cerrar el modal de creacion
+   */
   const abrirCerrarModalInsertar=()=>{
     setPostSeleccionado([]);
     setModalInsertar(!modalInsertar);
   }
 
-  
+  /**
+   *  @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Metodo para abrir o cerrer el modal de editar
+   */
   const abrirCerrarModalEditar=()=>{
     setModalEditar(!modalEditar);
   }
 
+  /**
+   *  @author Daniel Martinez
+   * @fecha 12/05/2022
+   * Metodo para abrir o cerrar el modal de eliminacion
+   */
   const abrirCerrarModalEliminar=()=>{
     setModalEliminar(!modalEliminar);
   }
